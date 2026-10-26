@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sri Murugan Transport - Transport Management System</title>
+    <meta name="description" content="Complete transport management system with 4-copy Lorry Receipt generation, master registries, payment tracking, customer ledgers, and operational reports." />
+    <meta property="og:title" content="Sri Murugan Transport - Transport Management System" />
+    <meta property="og:description" content="Complete transport management system with 4-copy Lorry Receipt generation, master registries, payment tracking, customer ledgers, and operational reports." />
+    <meta name="theme-color" content="#0f172a" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="MuruganTMS" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script>
+      // Prevent Vite HMR WebSocket from throwing "WebSocket closed without opened" in Cloud Run / proxy environment
+      (function () {
+        var NativeWebSocket = window.WebSocket;
+        if (NativeWebSocket) {
+          var PatchedWebSocket = function (url, protocols) {
+            var isViteHmr =
+              protocols === 'vite-hmr' ||
+              (Array.isArray(protocols) && protocols.indexOf('vite-hmr') !== -1) ||
+              (typeof url === 'string' && url.indexOf('token=') !== -1);
+            if (isViteHmr) {
+              return {
+                readyState: 1,
+                send: function () {},
+                close: function () {},
+                addEventListener: function () {},
+                removeEventListener: function () {},
+                dispatchEvent: function () { return true; }
+              };
+            }
+            return protocols !== undefined
+              ? new NativeWebSocket(url, protocols)
+              : new NativeWebSocket(url);
+          };
+          PatchedWebSocket.prototype = NativeWebSocket.prototype;
+          PatchedWebSocket.CONNECTING = NativeWebSocket.CONNECTING;
+          PatchedWebSocket.OPEN = NativeWebSocket.OPEN;
+          PatchedWebSocket.CLOSING = NativeWebSocket.CLOSING;
+          PatchedWebSocket.CLOSED = NativeWebSocket.CLOSED;
+          window.WebSocket = PatchedWebSocket;
+        }
+      })();
+
+      window.addEventListener('error', function (event) {
+        if (event && (
+          (event.message && (event.message.includes('WebSocket') || event.message.includes('@vite/client'))) ||
+          (event.filename && event.filename.includes('@vite/client'))
+        )) {
+          event.stopImmediatePropagation();
+          event.preventDefault();
+          return true;
+        }
+      }, true);
+      window.addEventListener('unhandledrejection', function (event) {
+        if (event && event.reason && (
+          (typeof event.reason.message === 'string' && event.reason.message.includes('WebSocket')) ||
+          (typeof event.reason.stack === 'string' && event.reason.stack.includes('@vite/client'))
+        )) {
+          event.stopImmediatePropagation();
+          event.preventDefault();
+        }
+      }, true);
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

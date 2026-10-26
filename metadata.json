@@ -1,0 +1,8 @@
+{
+  "name": "Sri Murugan Transport - Transport Management Software",
+  "description": "Complete transport management system with 4-copy Lorry Receipt generation, master registries, payment tracking, customer ledgers, and operational reports.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
